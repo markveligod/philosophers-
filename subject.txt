@@ -1,1 +1,123 @@
+Chapter II Mandatory part
+You will have to write 3 different programs but they will have the same basic rules:
+•A number of philosophers are sitting at a round table doing one of three things:eating, thinking or sleeping.
+•While eating, they are not thinking or sleeping, while sleeping, they are not eatingor thinking and of course, while thinking, they are not eating or sleeping.
+•The philosophers sit at a circular table with a large bowl of spaghetti in the center.
+•There are some forks on the table.•As spaghetti is difficult to serve and eat with a single fork, it is assumed that aphilosopher must eat with two forks, one for each hand.
+•The philosophers must never be starving.•Every philosopher needs to eat.
+•Philosophers don’t speak with each other.•Philosophers don’t know when another philosopher is about to die.
+•Each time a philosopher has finished eating, he will drop his forks and start sleeping.
+•When a philosopher is done sleeping, he will start thinking.
+•The simulation stops when a philosopher dies.
+•Each program should have the same options: number_of_philosophers time_to_dietime_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
+    ◦number_of_philosophers: is the number of philosophers and also the numberof forks
+    ◦time_to_die: is in milliseconds, if a philosopher doesn’t start eating ’time_to_die’milliseconds after starting his last meal or the beginning of the simulation,itdies
+    ◦time_to_eat: is in milliseconds and is the time it takes for a philosopher toeat. During that time he will need to keep the two forks.
+_______________________________________________________________________________________________
 
+Глава II обязательная часть
+
+Вам придется написать 3 разные программы но они будут иметь одни и те же основные правила:
+Несколько философов сидят за круглым столом и занимаются одним из трех дел:едят, думают или спят.
+• Во время еды они не думают и не спят, во время сна они не едят или не думают и, конечно же, во время мышления они не едят и не спят.
+Философы сидят за круглым столом с большой миской спагетти в центре.
+• Есть некоторые вилки на столе.* Поскольку спагетти трудно подавать и есть одной вилкой, предполагается, что афилософ должен есть двумя вилками, по одной на каждую руку.
+Философы никогда не должны голодать.* Каждый философ нуждается в еде.
+• Философы не разговаривают друг с другом.* Философы не знают, когда умрет другой философ.
+Каждый раз, когда философ заканчивает есть, он роняет свои вилки и начинает спать.
+Когда философ закончит спать, он начнет думать.
+• Симуляция прекращается, когда философ умирает.
+• Каждая программа должна иметь одинаковые параметры: number_of_philosophers time_to_dietime_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
+    ◦number_of_philosophers: это число философов, а также число вилок
+    ◦Tim time_to_die: находится в миллисекундах, если философ не начинает есть "time_to_die" через миллисекунды после начала своего последнего приема пищи или начала симуляции,то это происходит в миллисекундах.
+    ◦Tim time_to_eat: измеряется в миллисекундах и является временем, которое требуется философу, чтобы поесть. За это время ему нужно будет сохранить две вилки.
+_______________________________________________________________________________________________
+
+    ◦time_to_sleep: is in milliseconds and is the time the philosopher will spendsleeping.
+    ◦number_of_times_each_philosopher_must_eat: argument is optional, if allphilosophers eat at least ’number_of_times_each_philosopher_must_eat’ thesimulation will stop. If not specified, the simulation will stop only at the deathof a philosopher.
+• Each philosopher should be given a number from 1 to ’number_of_philosophers’.
+• Philosopher number 1 is next to philosopher number ’number_of_philosophers’.Any other philosopher with number N is seated between philosopher N - 1 andphilosopher N + 1
+• Any change of status of a philosopher must be written as follows (with X replacedwith the philosopher number and timestamp_in_ms the current timestamp in mil-liseconds)
+    ◦timestamp_in_ms X has taken a fork
+    ◦timestamp_in_ms X is eating
+    ◦timestamp_in_ms X is sleeping
+    ◦timestamp_in_ms X is thinking
+    ◦timestamp_in_ms X died
+•The status printed should not be scrambled or intertwined with another philoso-pher’s status.
+•You can’t have more than 10 ms between the death of a philosopher and when itwill print its death.•Again, philosophers should avoid to die!
+_______________________________________________________________________________________________
+
+    ◦ time_to_sleep: находится в миллисекундах и является временем, которое философ будет тратить на сон.
+    ◦ number_of_times_each_philosopher_must_eat: аргумент необязателен, если все философы едят хотя бы "number_of_times_each_philosopher_must_eat", то симуляция прекратится. Если не указано, то симуляция остановится только на смерти философа.
+• Каждому философу должно быть присвоено число от 1 до "number_of_philosophers".
+• Философ номер 1 находится рядом с философом номер ' number_of_philosophers’.Любой другой философ с числом N сидит между философом N-1 и философом N + 1
+• Любое изменение статуса философа должно быть записано следующим образом (с заменой X номером философа и timestamp_in_ms текущей меткой времени в миллисекундах)
+    ◦timestamp_in_ms X взял вилку
+    ◦timestamp_in_ms X ест
+    ◦timestamp_in_ms X находится в спящем режиме
+    ◦timestamp_in_ms X думает
+    ◦timestamp_in_ms X умер
+• Напечатанный статус не должен быть скомбинирован или переплетен со статусом другого философа.
+• Вы не можете иметь более 10 мс между смертью философа и тем, когда он напечатает свою смерть.* Опять же, философы должны избегать смерти!
+_______________________________________________________________________________________________
+
+Program name philo_one 
+Turn in filesphilo_one/
+Makefile Yes
+Arguments number_of_philosophers time_to_die time_to_eattime_to_sleep [number_of_times_each_philosopher_must_eat]
+External functs. memset, malloc, free, write, usleep, gettimeofday, pthread_create, pthread_detach, pthread_join,pthread_mutex_init, pthread_mutex_destroy,pthread_mutex_lock, pthread_mutex_unlock
+Libft authorized No
+Description philosopher with threads and mutex
+_______________________________________________________________________________________________
+
+In this version the non common rules will be:
+• One fork between each philosopher, therefore there will be a fork at the right andat the left of each philosopher.
+• To avoid philosophers duplicating forks, you should protect the forks state with amutex for each of them.
+• Each philosopher should be a thread.
+
+_______________________________________________________________________________________________
+В этой версии не общие правила будут такими:
+Одна вилка между каждым философом, следовательно, будет вилка справа и слева от каждого философа.
+• Чтобы философы не дублировали форки, вы должны защитить состояние форков с помощью мьютекса для каждого из них.
+• Каждый философ должен быть нитью.
+
+_______________________________________________________________________________________________
+Program name philo_two
+Turn in filesphilo_two/
+Makefile Yes
+Arguments number_of_philosophers time_to_die time_to_eattime_to_sleep [number_of_times_each_philosopher_must_eat]
+External functs. memset, malloc, free, write, usleep, gettimeofday,pthread_create, pthread_detach, pthread_join,sem_open, sem_close, sem_post, sem_wait, sem_unlink
+Libft authorized No
+Description philosopher with threads and semaphore
+
+_______________________________________________________________________________________________
+In this version the non common rules will be:
+• All the forks are in the middle of the table.
+• They have no states in memory but the number of available forks is represented bya semaphore.
+• Each philosopher should be a thread.
+
+_______________________________________________________________________________________________
+В этой версии не общие правила будут такими:
+• Все вилки находятся в середине стола.
+• У них нет состояний в памяти, но количество доступных вилок представлено семафором.
+• Каждый философ должен быть нитью.
+
+_______________________________________________________________________________________________
+Program name philo_three
+Turn in files philo_three/
+Makefile Yes
+Arguments number_of_philosophers time_to_die time_to_eattime_to_sleep [number_of_times_each_philosopher_must_eat]
+External functs. memset, malloc, free, write, fork, kill, exit,pthread_create, pthread_detach, pthread_join,usleep, gettimeofday, waitpid, sem_open, sem_close,sem_post, sem_wait, sem_unlink
+Libft authorized No
+Description philosopher with processes and semaphore
+_______________________________________________________________________________________________
+In this version the non common rules will be:
+•All the forks are in the middle of the table.
+•They have no states in memory but the number of available forks is represented bya semaphore.
+•Each philosopher should be a process and the main process should not be a philoso-pher.
+
+_______________________________________________________________________________________________
+В этой версии не общие правила будут такими:
+• Все вилки находятся в середине стола.
+• У них нет состояний в памяти, но количество доступных вилок представлено семафором.
+• Каждый философ должен быть процессом, а главный процесс не должен быть философом.
