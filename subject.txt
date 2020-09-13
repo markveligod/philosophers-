@@ -9,7 +9,7 @@ You will have to write 3 different programs but they will have the same basic ru
 •Each time a philosopher has finished eating, he will drop his forks and start sleeping.
 •When a philosopher is done sleeping, he will start thinking.
 •The simulation stops when a philosopher dies.
-•Each program should have the same options: number_of_philosophers time_to_dietime_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
+•Each program should have the same options: number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
     ◦number_of_philosophers: is the number of philosophers and also the numberof forks
     ◦time_to_die: is in milliseconds, if a philosopher doesn’t start eating ’time_to_die’milliseconds after starting his last meal or the beginning of the simulation,itdies
     ◦time_to_eat: is in milliseconds and is the time it takes for a philosopher toeat. During that time he will need to keep the two forks.
@@ -27,7 +27,7 @@ ________________________________________________________________________________
 Каждый раз, когда философ заканчивает есть, он роняет свои вилки и начинает спать.
 Когда философ закончит спать, он начнет думать.
 • Симуляция прекращается, когда философ умирает.
-• Каждая программа должна иметь одинаковые параметры: number_of_philosophers time_to_dietime_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
+• Каждая программа должна иметь одинаковые параметры: number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]:
     ◦number_of_philosophers: это число философов, а также число вилок
     ◦Tim time_to_die: находится в миллисекундах, если философ не начинает есть "time_to_die" через миллисекунды после начала своего последнего приема пищи или начала симуляции,то это происходит в миллисекундах.
     ◦Tim time_to_eat: измеряется в миллисекундах и является временем, которое требуется философу, чтобы поесть. За это время ему нужно будет сохранить две вилки.
@@ -62,7 +62,7 @@ ________________________________________________________________________________
 _______________________________________________________________________________________________
 
 Program name philo_one 
-Turn in filesphilo_one/
+Turn in files philo_one/
 Makefile Yes
 Arguments number_of_philosophers time_to_die time_to_eattime_to_sleep [number_of_times_each_philosopher_must_eat]
 External functs. memset, malloc, free, write, usleep, gettimeofday, pthread_create, pthread_detach, pthread_join,pthread_mutex_init, pthread_mutex_destroy,pthread_mutex_lock, pthread_mutex_unlock
