@@ -93,7 +93,7 @@ Description philosopher with threads and semaphore
 _______________________________________________________________________________________________
 In this version the non common rules will be:
 • All the forks are in the middle of the table.
-• They have no states in memory but the number of available forks is represented bya semaphore.
+• They have no states in memory but the number of available forks is represented by a semaphore.
 • Each philosopher should be a thread.
 
 _______________________________________________________________________________________________
