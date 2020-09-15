@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 11:11:43 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/14 09:31:40 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/15 11:56:43 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,20 @@ int		ft_atoi(char *str)
 	return (res * sing);
 }
 
-int		print_error(char *str)
+int		print_error(char *str, int err)
 {
+	char *s;
+
+	s = ft_itoa(err);
 	write(STDOUT_FILENO, RED"Error: "RESET, ft_strlen(RED"Error: "RESET));
 	write(STDOUT_FILENO, YELLOW, ft_strlen(YELLOW));
+	write(STDOUT_FILENO, "Code: ", ft_strlen("Code: "));
+	write(STDOUT_FILENO, s, ft_strlen(s));
+	write(STDOUT_FILENO, " ", 1);
 	write(STDOUT_FILENO, str, ft_strlen(str));
 	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
-	return (1);
+	free(s);
+	return (err);
 }
 
 int		check_size(int n)

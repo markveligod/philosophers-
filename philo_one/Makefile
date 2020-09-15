@@ -1,7 +1,7 @@
 NAME = philo_one
 FLAGS = -Wall -Werror -Wextra -lpthread
 HDRS = ./one.h
-SRC = ./one.c ./part_1.c ./utils.c
+SRC = ./one.c ./get_param.c ./utils.c ./utils2.c
 OBJ = $(SRC:.c=.o)
 
 #colors

@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 11:09:20 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/14 16:58:36 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/15 13:05:52 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,59 @@
 # define RED "\033[1;31m"
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
+# define ERROR_VALUE -1
+# define ERROR_MALLOC -2
 
-#include <pthread.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <unistd.h>
+# include <stdlib.h>
 
-# include <stdio.h>
+# include <stdio.h> //delete
+
+typedef enum
+{
+					THINKING, EATING, HUNGRY, SLEEPING, DIED, TAKE_FORK
+}					t_state;
+
+typedef struct		s_time
+{
+	int				time_to_eat;
+	int				time_to_die;
+	int				time_to_sleep;
+	int				num_philo;
+	int				num_eat;
+}					t_time;
+
+typedef struct		s_mutex
+{
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	*die_to_eat;
+}					t_mutex;
+
+typedef struct		s_philo
+{
+	int				index;
+	unsigned long	start;
+	int				num_eat;
+	unsigned long	last_eat;
+	pthread_t		live;
+	pthread_t		check;
+}					t_philo;
+
+typedef struct		s_ptr 
+{
+	t_time			*times;
+	t_philo			*philos;
+	t_mutex			*mut;
+	int				alive;
+}					t_ptr;
 
 /*
-** Global value
+** Param
 */
 
-int					g_time;
-int					g_status;
-int					g_philo;
-int					g_die;
-int					g_eat;
-int					g_sleep;
-int					g_end;
-int					g_index;
-int					*g_forks;
-struct timeval		g_start_time;
-struct timeval		g_last_time;
-pthread_mutex_t		g_waits;
-
-/*
-** part_1
-*/
-
-int					start_part_1(void);
+int					init_ptr_param(char **av, t_ptr *ptr, int ac);
 
 /*
 ** Utils
@@ -52,7 +75,8 @@ int					start_part_1(void);
 
 int					ft_strlen(char *str);
 int					ft_atoi(char *str);
-int					print_error(char *str);
+int					print_error(char *str, int err);
 char				*ft_itoa(int n);
+unsigned long		get_time(void);
 
 #endif
