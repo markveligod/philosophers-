@@ -6,58 +6,36 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 11:09:09 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/13 17:44:27 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/14 15:02:50 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "one.h"
 
-int		init_global(t_global *global)
+int		pars_argv(char **av, int ac)
 {
-	if (!(global = (t_global *)malloc(sizeof(t_global))))
+	if ((g_philo = (unsigned int)ft_atoi(av[1])) == 0)
 		return (1);
-	if (!(global->argv = (t_argv *)malloc(sizeof(t_argv))))
+	if ((g_die = (unsigned int)ft_atoi(av[2])) == 0)
 		return (1);
-}
-
-void	philo_start(t_global *global, int index)
-{
-	t_philo philo;
-
-	philo.status = 1;
-	while (philo.status == 1)
+	if ((g_eat = (unsigned int)ft_atoi(av[3])) == 0)
+		return (1);
+	if ((g_sleep = (unsigned int)ft_atoi(av[4])) == 0)
+		return (1);
+	if (ac == 6)
 	{
-		philo.is_die = global->argv->die;
-		pthread_mutex_lock(&global->argv->forks[index]);
-		print_do();
-	}
-}
-
-int		start(t_global *global)
-{
-	pthread_t	tid[global->argv->philo];
-	int			i;
-
-	i = 0;
-	if (!(global->argv->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (global->argv->philo + 1))))
-		return (1);
-	while (++i < global->argv->philo)
-		if (pthread_mutex_init(&global->argv->forks[i], NULL))
+		if ((g_end = (unsigned int)ft_atoi(av[5])) == 0)
 			return (1);
-	i = -1;
-	while (++i < global->argv->philo)
-		pthread_create(&tid[i], NULL, philo_start, global, i + 1);
-	i = -1;
-	while (++i < global->argv->philo)
-		pthread_join(&tid[i], NULL);
+	}
+	else
+		g_end = 0;
 	return (0);
 }
 
 int		main(int ac, char **av)
 {
-	t_global global;
-
 	g_time = 0;
+	g_index = 0;
 	if (ac < 5 || ac > 6)
 	{
 		print_error("Wrong number of arguments !\n");
@@ -65,13 +43,12 @@ int		main(int ac, char **av)
 		print_error("or ./philo_one [philo] [die] [eat] [sleep] [end]\n");
 		return (ac);
 	}
-	if ((init_global(&global)) == 1)
-		return (print_error("Memory allocation failed\n"));
-	if (pars_argv(&global, av, ac) == 1)
+	if (pars_argv(av, ac) == 1)
 		return (print_error("Invalid argument value\n"));
 	if (ac == 5)
-	{
-		start(&global);
-	}
+		if (start_part_1())
+			return (print_error("Invalid posix thread\n"));
+//	else
+//		start_part_2();
 	return (0);
 }

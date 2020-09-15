@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/13 11:09:20 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/13 17:43:01 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/14 16:58:36 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,28 @@
 
 # include <stdio.h>
 
-typedef struct		s_argv
-{
-	unsigned int	philo;
-	unsigned int	die;
-	unsigned int	eat;
-	unsigned int	sleep;
-	unsigned int	end;
-	pthread_mutex_t *forks;
-}					t_argv;
-
-typedef struct		s_philo
-{
-	unsigned int	index;
-	unsigned int	status;
-	int				is_die;
-}					t_philo;
-
-typedef struct		s_global
-{
-	t_argv			*argv;
-}					t_global;
-
 /*
 ** Global value
 */
 
-unsigned int		g_time;
+int					g_time;
+int					g_status;
+int					g_philo;
+int					g_die;
+int					g_eat;
+int					g_sleep;
+int					g_end;
+int					g_index;
+int					*g_forks;
+struct timeval		g_start_time;
+struct timeval		g_last_time;
+pthread_mutex_t		g_waits;
 
 /*
-** parsing
+** part_1
 */
 
-int					pars_argv(t_global *global, char **av, int ac);
+int					start_part_1(void);
 
 /*
 ** Utils
@@ -64,5 +53,6 @@ int					pars_argv(t_global *global, char **av, int ac);
 int					ft_strlen(char *str);
 int					ft_atoi(char *str);
 int					print_error(char *str);
+char				*ft_itoa(int n);
 
 #endif
