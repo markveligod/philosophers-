@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 11:47:48 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 13:06:47 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/15 13:39:55 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,38 @@ int		get_philo_param(t_ptr *ptr)
 	return (0);
 }
 
+int		get_mutex_param(t_ptr *ptr)
+{
+	int i;
+
+	if (!(ptr->mut = (t_mutex *)malloc(sizeof(t_mutex))))
+		return (ERROR_MUTEX);
+	if (!(ptr->mut->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (ptr->times->num_philo + 1))))
+		return (ERROR_MUTEX);
+	if (!(ptr->mut->die_to_eat = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ptr->times->num_philo)))
+		return (ERROR_MUTEX);
+	i = 0;
+	while (++i < ptr->times->num_philo)
+	{
+		if (pthread_mutex_init(&ptr->mut->forks[i], NULL) || pthread_mutex_init(&ptr->mut->die_to_eat[i], NULL))
+			return (ERROR_MUTEX);
+	}
+	return (0);
+}
+
 int		init_ptr_param(char **av, t_ptr *ptr, int ac)
 {
 	int rec;
 
-	if(!(ptr = (t_ptr *)malloc(sizeof(t_ptr))))
-		return (ERROR_MALLOC);
+	ptr->times = NULL;
+	ptr->philos = NULL;
+	ptr->mut = NULL;
 	ptr->alive = 1;
 	if ((rec = get_time_param(ptr, av, ac)) < 0)
 		return (rec);
 	if ((rec = get_philo_param(ptr)) < 0)
 		return (rec);
-	
+	if ((rec = get_mutex_param(ptr)) < 0)
+		return (rec);
 	return (0);
 }
