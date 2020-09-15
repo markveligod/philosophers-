@@ -1,8 +1,8 @@
 NAME = philo_one
-FLAGS = -Wall -Werror -Wextra -lpthread
+FLAGS = -Wall -Wextra -Werror -lpthread
 HDRS = ./one.h
-SRC = ./one.c ./get_param.c ./utils.c ./utils2.c ./threads.c ./test.c
-OBJ = $(SRC:.c=.o)
+SRC = ./one.c ./get_param.c ./threads.c ./utils.c ./utils2.c
+OBJ=$(SRC:.c=.o)
 
 #colors
 RED=\033[1;31m
@@ -12,7 +12,7 @@ CYAN=\033[1;36m
 RESET=\033[0m
 
 %.o:%.c
-	@gcc -o $@ -c $<
+	@gcc -o $@ -c $< $(FLAGS)
 	@echo "[$(GREEN)OK$(RESET)]$(YELLOW) Compiling $<$(RESET)"
 
 $(NAME): $(OBJ) $(HDRS)

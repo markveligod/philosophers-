@@ -5,57 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/15 13:05:04 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 16:07:22 by ckakuna          ###   ########.fr       */
+/*   Created: 2020/09/15 17:02:30 by ckakuna           #+#    #+#             */
+/*   Updated: 2020/09/15 17:37:11 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "one.h"
 
-unsigned long		get_time(void)
+char	*ft_strdup(const char *s1)
 {
-	struct timeval tv;
+	unsigned int i;
+	unsigned int j;
+	char *str;
 
-	if (gettimeofday(&tv, NULL))
-		return (0);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+		i++;
+	str = (char *)malloc((1 + i) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (j < i)
+	{
+		str[j] = s1[j];
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }
 
-char				*check_state(t_state status)
+int		ft_len(unsigned long nb)
+{
+	unsigned long len;
+
+	len = 0;
+	if (nb == 0)
+		return (1);
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*get_status(t_state status)
 {
 	if (status == TAKE_FORK)
-		return (" has taken a fork\n");
+		return (ft_strdup(" has taken a fork\n"));
 	else if (status == THINKING)
-		return (" is thinking\n");
+		return (ft_strdup(" is thinking\n"));
 	else if (status == EATING)
-		return (" is eating\n");
-	else if (status == TAKE_FORK)
-		return (" has taken a fork\n");
+		return (ft_strdup(" is eating\n"));
+	//else if (status == TAKE_FORK)
+	//    return (" has taken a fork");
 	else if (status == SLEEPING)
-		return (" is sleeping\n");
+		return (ft_strdup(" is sleeping\n"));
 	else if (status == DIED)
-		return (" died\n");
+		return (ft_strdup(" died\n"));
 	return (NULL);
 }
 
-void				print_do(t_philo *philo, t_state status)
+void	print_do(t_philo *philo, t_state status)
 {
-	char *stat;
+	char *stats;
+	char *temp;
 	char *time;
 	char *index;
-	
-	stat = check_state(status);
-	time = ft_itoa(get_time() - philo->start);
-	index = ft_itoa(philo->index);
-	write(STDOUT_FILENO, YELLOW, ft_strlen(YELLOW));
-	write(STDOUT_FILENO, time, ft_strlen(time));
-	write(STDOUT_FILENO, "ms ", 3);
-	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
-	write(STDOUT_FILENO, index, ft_strlen(index));
-	write(STDOUT_FILENO, " ", 1);
-	write(STDOUT_FILENO, GREEN, ft_strlen(GREEN));
-	write(STDOUT_FILENO, stat, ft_strlen(stat));
-	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
+
+	time = ft_itoa(get_time_is() - philo->start);
+	index = ft_itoa(philo->index + 1);
+	stats = get_status(status);
+	temp = ft_strdup("");
+	temp = ft_strjoin(temp, YELLOW);
+	temp = ft_strjoin(temp, "[");
+	temp = ft_strjoin(temp, time);
+	temp = ft_strjoin(temp, "ms] ");
+	temp = ft_strjoin(temp, RESET);
+	temp = ft_strjoin(temp, index);
+	temp = ft_strjoin(temp, " ");
+	temp = (status == DIED) ? ft_strjoin(temp, RED) : ft_strjoin(temp, GREEN);
+	temp = ft_strjoin(temp, stats);
+	temp = ft_strjoin(temp, RESET);
+	write(STDOUT_FILENO, temp, ft_strlen(temp));
 	free(time);
 	free(index);
+	free(temp);
+	free(stats);
 }

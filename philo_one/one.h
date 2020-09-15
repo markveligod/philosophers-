@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/13 11:09:20 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 13:55:09 by ckakuna          ###   ########.fr       */
+/*   Created: 2020/09/15 16:26:18 by ckakuna           #+#    #+#             */
+/*   Updated: 2020/09/15 17:08:18 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,27 @@
 
 # include <pthread.h>
 # include <sys/time.h>
-# include <unistd.h>
-# include <stdlib.h>
-
 # include <stdio.h> //delete
+# include <stdlib.h>
+# include <unistd.h>
 
-typedef enum
-{
+typedef enum {
 					THINKING, EATING, HUNGRY, SLEEPING, DIED, TAKE_FORK
 }					t_state;
 
-typedef struct		s_time
+typedef struct		s_argv
 {
-	int				time_to_eat;
-	int				time_to_die;
-	int				time_to_sleep;
-	int				num_philo;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_die;
+	unsigned long	time_to_sleep;
+	int				num_ph;
 	int				num_eat;
-}					t_time;
+}					t_argv;
 
 typedef struct		s_mutex
 {
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*die_to_eat;
+	pthread_mutex_t	*die_eat;
 }					t_mutex;
 
 typedef struct		s_philo
@@ -58,43 +56,41 @@ typedef struct		s_philo
 	pthread_t		check;
 }					t_philo;
 
-typedef struct		s_ptr 
+typedef struct		s_ptr
 {
-	t_time			*times;
+	t_argv			*times;
 	t_philo			*philos;
-	t_mutex			*mut;
-	int				alive;
+	t_mutex			*mutex;
 	int				num_philo;
+	int				alive;
 }					t_ptr;
-
-void testing_pars(t_ptr *ptr); //delete
-
-/*
-** Global value
-*/
-int					g_index;
-
-/*
-** Param
-*/
-
-int					init_ptr_param(char **av, t_ptr *ptr, int ac);
 
 /*
 ** Threads
 */
 
-void				*thread_live(void *param);
+void				*threads_check(void *philo);
+void				*threads_live(void *philo);
+
+/*
+** Get param
+*/
+
+t_ptr				*get_ptr(void);
+t_ptr				*init_param(char **av);
+void				free_ptr(t_ptr *ptr);
 
 /*
 ** Utils
 */
 
-int					ft_strlen(char *str);
-int					ft_atoi(char *str);
-int					print_error(char *str, int err);
-char				*ft_itoa(int n);
-unsigned long		get_time(void);
-void				print_do(t_philo *philo, t_state etat);
+unsigned long		get_time_is(void);
+char				*ft_itoa(unsigned long n);
+char				*ft_strjoin(char const *s1, char const *s2);
+size_t				ft_strlen(const char *str);
+int					ft_atoi(const char *str);
+char				*ft_strdup(const char *s1);
+int					ft_len(unsigned long nb);
+void				print_do(t_philo *philo, t_state status);
 
 #endif
