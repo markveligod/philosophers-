@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:02:30 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 17:37:11 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 09:25:11 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,15 @@
 
 char	*ft_strdup(const char *s1)
 {
-	unsigned int i;
-	unsigned int j;
-	char *str;
-
-	i = 0;
-	j = 0;
-	while (s1[i] != '\0')
-		i++;
-	str = (char *)malloc((1 + i) * sizeof(char));
-	if (str == NULL)
+	int		size;
+	char	*str;
+	
+	size = ft_strlen((char *)s1);
+	if (!(str = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	while (j < i)
-	{
-		str[j] = s1[j];
-		j++;
-	}
-	str[j] = '\0';
+	str[size] = '\0';
+	while (--size >= 0)
+		str[size] = s1[size];
 	return (str);
 }
 
@@ -57,8 +49,6 @@ char	*get_status(t_state status)
 		return (ft_strdup(" is thinking\n"));
 	else if (status == EATING)
 		return (ft_strdup(" is eating\n"));
-	//else if (status == TAKE_FORK)
-	//    return (" has taken a fork");
 	else if (status == SLEEPING)
 		return (ft_strdup(" is sleeping\n"));
 	else if (status == DIED)

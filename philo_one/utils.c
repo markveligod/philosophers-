@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:02:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 17:27:48 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 10:17:17 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	size_t		j;
 	char		*str;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	else if (s1 == NULL)
+	if (s1 == NULL)
 		return (ft_strdup(s2));
 	else if (s2 == NULL)
 		return (ft_strdup(s1));
@@ -85,25 +83,17 @@ size_t		ft_strlen(const char *str)
 int			ft_atoi(const char *str)
 {
 	int		i;
-	long	r;
-	int		s;
+	int		sing;
+	long	res;
 
 	i = 0;
-	r = 0;
-	s = 1;
-	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+	res = 0;
+	sing = 1;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
 		i++;
-	if (str[i] == '-')
-	{
-		s = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
-	{
-		r = r * 10 + str[i] - '0';
-		i++;
-	}
-	return (r * s);
+	if (str[i] == '-' || str[i] == '+')
+		sing = ((str[i++] == '-') ? -1 : 1);
+	while ((str[i] >= '0' && str[i] <= '9') && str[i] != '\0')
+		res = (res * 10) + (str[i++] - '0');
+	return (res * sing);
 }

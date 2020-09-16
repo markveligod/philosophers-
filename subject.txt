@@ -85,7 +85,7 @@ ________________________________________________________________________________
 Program name philo_two
 Turn in filesphilo_two/
 Makefile Yes
-Arguments number_of_philosophers time_to_die time_to_eattime_to_sleep [number_of_times_each_philosopher_must_eat]
+Arguments number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 External functs. memset, malloc, free, write, usleep, gettimeofday,pthread_create, pthread_detach, pthread_join,sem_open, sem_close, sem_post, sem_wait, sem_unlink
 Libft authorized No
 Description philosopher with threads and semaphore
