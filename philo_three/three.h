@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   one.h                                              :+:      :+:    :+:   */
+/*   three.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:26:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 13:28:53 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 15:03:58 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
@@ -21,8 +21,15 @@
 
 # include <pthread.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <sys/types.h>
+
+# include <stdio.h> //delete
 
 typedef enum {
 					THINKING, EATING, SLEEPING, DIED, TAKE_FORK
@@ -37,11 +44,11 @@ typedef struct		s_argv
 	int				num_eat;
 }					t_argv;
 
-typedef struct		s_mutex
+typedef struct		s_sem
 {
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*die_eat;
-}					t_mutex;
+	sem_t			*forks;
+	sem_t			*die_eat;
+}					t_sem;
 
 typedef struct		s_philo
 {
@@ -49,15 +56,16 @@ typedef struct		s_philo
 	unsigned long	start;
 	int				num_eat;
 	unsigned long	last_eat;
-	pthread_t		live;
 	pthread_t		check;
+	pthread_t		live;
 }					t_philo;
 
 typedef struct		s_ptr
 {
 	t_argv			*times;
 	t_philo			*philos;
-	t_mutex			*mutex;
+	t_sem			*sem;
+	pid_t			pid;
 	int				num_philo;
 	int				alive;
 }					t_ptr;
@@ -67,7 +75,7 @@ typedef struct		s_ptr
 */
 
 void				*threads_check(void *philo);
-void				*threads_live(void *philo);
+void				*threads_live(void *param);
 
 /*
 ** Get param

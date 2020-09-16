@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/16 11:56:52 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 13:05:02 by ckakuna          ###   ########.fr       */
+/*   Created: 2020/09/16 11:57:01 by ckakuna           #+#    #+#             */
+/*   Updated: 2020/09/16 13:08:32 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "one.h"
+#include "two.h"
 
 void	get_sleeping(int n)
 {
@@ -32,17 +32,17 @@ int     try_fork(t_philo *philo)
 	t_ptr *ptr;
 
 	ptr = get_ptr();
-	pthread_mutex_lock(&ptr->mutex->forks[philo->index]);
+	sem_wait(ptr->sem->forks);
 	print_do(philo, TAKE_FORK);
-	pthread_mutex_lock(&ptr->mutex->forks[(philo->index + 1) % ptr->times->num_ph]);
-	pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
+	sem_wait(ptr->sem->forks);
 	print_do(philo, TAKE_FORK);
+	sem_wait(ptr->sem->die_eat);
 	philo->last_eat = get_time_is();
 	print_do(philo, EATING);
 	get_sleeping(ptr->times->time_to_eat);
-	pthread_mutex_unlock(&ptr->mutex->die_eat[philo->index]);
-	pthread_mutex_unlock(&ptr->mutex->forks[philo->index]);
-	pthread_mutex_unlock(&ptr->mutex->forks[(philo->index + 1) % ptr->times->num_ph]);
+	sem_post(ptr->sem->die_eat);
+	sem_post(ptr->sem->forks);
+	sem_post(ptr->sem->forks);
 	return (1);
 }
 
@@ -75,15 +75,15 @@ void	*threads_check(void *args)
 	philo = (t_philo*)args;
 	while (42)
 	{
-		pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
 		if (get_time_is() - philo->last_eat > ptr->times->time_to_die && ptr->alive)
 		{
-			ptr->alive= 0;
+			sem_wait(ptr->sem->die_eat);
+			ptr->alive = 0;
 			print_do(philo, DIED);
+			sem_post(ptr->sem->die_eat);
 			free_ptr(ptr);
 			break ;
 		}
-		pthread_mutex_unlock(&ptr->mutex->die_eat[philo->index]);
 		get_sleeping(5);
 	}
 	return (NULL);
