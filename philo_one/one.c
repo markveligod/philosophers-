@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:46:30 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 17:46:39 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 16:02:45 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_ptr(t_ptr *ptr)
 	free(ptr->mutex);
 }
 
-int     start_threads(void)
+int		start_threads(void)
 {
 	t_ptr	*ptr;
 	int		i;
@@ -35,11 +35,13 @@ int     start_threads(void)
 	i = 0;
 	while (i < ptr->times->num_ph)
 	{
-		if (pthread_create(&ptr->philos[i].live, NULL, threads_live, &ptr->philos[i]))
+		if (pthread_create(&ptr->philos[i].live, NULL,
+		threads_live, &ptr->philos[i]))
 			return (0);
 		if (pthread_detach(ptr->philos[i].live))
 			return (0);
-		if (pthread_create(&ptr->philos[i].check, NULL, threads_check, &ptr->philos[i]))
+		if (pthread_create(&ptr->philos[i].check, NULL,
+		threads_check, &ptr->philos[i]))
 			return (0);
 		if (pthread_detach(ptr->philos[i].check))
 			return (0);
@@ -91,7 +93,8 @@ int		main(int ac, char **av)
 		return (0);
 	free_ptr(ptr);
 	write(STDOUT_FILENO, RED, ft_strlen(RED));
-	write(STDOUT_FILENO, "They all have eaten enough\n", ft_strlen("They all have eaten enough\n"));
+	write(STDOUT_FILENO, "They all have eaten enough\n",
+	ft_strlen("They all have eaten enough\n"));
 	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:26:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 13:28:53 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 16:02:15 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef enum {
-					THINKING, EATING, SLEEPING, DIED, TAKE_FORK
+typedef enum		e_state
+{
+	THINKING, EATING, SLEEPING, DIED, TAKE_FORK
 }					t_state;
 
 typedef struct		s_argv

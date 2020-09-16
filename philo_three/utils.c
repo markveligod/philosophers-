@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:02:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 14:10:45 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 15:56:29 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char				*ft_itoa(unsigned long n)
 	return ((char *)tab);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char				*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t		i;
 	size_t		j;
@@ -70,7 +70,7 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-size_t		ft_strlen(const char *str)
+size_t				ft_strlen(const char *str)
 {
 	size_t i;
 
@@ -80,7 +80,7 @@ size_t		ft_strlen(const char *str)
 	return (i);
 }
 
-int			ft_atoi(const char *str)
+int					ft_atoi(const char *str)
 {
 	int		i;
 	int		sing;

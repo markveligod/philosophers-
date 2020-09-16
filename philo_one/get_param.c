@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:53:08 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/15 17:04:56 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 16:04:48 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ t_mutex	*init_mutex(int num_philos)
 	i = 0;
 	if (!(mutex = (t_mutex *)malloc(sizeof(t_mutex))))
 		return (NULL);
-	if (!(mutex->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (num_philos + 1))))
+	if (!(mutex->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+	* (num_philos + 1))))
 		return (NULL);
-	if (!(mutex->die_eat = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * num_philos)))
+	if (!(mutex->die_eat = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+	* num_philos)))
 		return (NULL);
 	while (++i < num_philos)
-		if (pthread_mutex_init(&mutex->forks[i], NULL) || pthread_mutex_init(&mutex->die_eat[i], NULL))
+		if (pthread_mutex_init(&mutex->forks[i], NULL) ||
+		pthread_mutex_init(&mutex->die_eat[i], NULL))
 			return (NULL);
 	return (mutex);
 }

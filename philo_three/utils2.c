@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:02:30 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 14:10:50 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 15:57:06 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strdup(const char *s1)
 {
 	int		size;
 	char	*str;
-	
+
 	size = ft_strlen((char *)s1);
 	if (!(str = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);

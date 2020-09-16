@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 11:56:52 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 13:05:02 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 16:04:24 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ void	get_sleeping(int n)
 	}
 }
 
-int     try_fork(t_philo *philo)
+int		try_fork(t_philo *philo)
 {
 	t_ptr *ptr;
 
 	ptr = get_ptr();
 	pthread_mutex_lock(&ptr->mutex->forks[philo->index]);
 	print_do(philo, TAKE_FORK);
-	pthread_mutex_lock(&ptr->mutex->forks[(philo->index + 1) % ptr->times->num_ph]);
+	pthread_mutex_lock(&ptr->mutex->forks[(philo->index + 1)
+	% ptr->times->num_ph]);
 	pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
 	print_do(philo, TAKE_FORK);
 	philo->last_eat = get_time_is();
@@ -42,11 +43,12 @@ int     try_fork(t_philo *philo)
 	get_sleeping(ptr->times->time_to_eat);
 	pthread_mutex_unlock(&ptr->mutex->die_eat[philo->index]);
 	pthread_mutex_unlock(&ptr->mutex->forks[philo->index]);
-	pthread_mutex_unlock(&ptr->mutex->forks[(philo->index + 1) % ptr->times->num_ph]);
+	pthread_mutex_unlock(&ptr->mutex->forks[(philo->index + 1)
+	% ptr->times->num_ph]);
 	return (1);
 }
 
-void    *threads_live(void *args)
+void	*threads_live(void *args)
 {
 	t_ptr	*ptr;
 	t_philo	*philo;
@@ -76,9 +78,10 @@ void	*threads_check(void *args)
 	while (42)
 	{
 		pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
-		if (get_time_is() - philo->last_eat > ptr->times->time_to_die && ptr->alive)
+		if (get_time_is() - philo->last_eat > ptr->times->time_to_die
+		&& ptr->alive)
 		{
-			ptr->alive= 0;
+			ptr->alive = 0;
 			print_do(philo, DIED);
 			free_ptr(ptr);
 			break ;

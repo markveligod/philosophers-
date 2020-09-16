@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 11:57:01 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 15:02:15 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/16 15:55:45 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_sleeping(int n)
 	}
 }
 
-int     try_fork(t_philo *philo)
+int		try_fork(t_philo *philo)
 {
 	t_ptr *ptr;
 
@@ -75,7 +75,8 @@ void	*threads_check(void *args)
 	philo = (t_philo*)args;
 	while (42)
 	{
-		if (get_time_is() - philo->last_eat > ptr->times->time_to_die && ptr->alive)
+		if (get_time_is() - philo->last_eat > ptr->times->time_to_die
+		&& ptr->alive)
 		{
 			sem_wait(ptr->sem->die_eat);
 			ptr->alive = 0;
