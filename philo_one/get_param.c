@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:53:08 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 15:18:17 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 18:33:51 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		init_mutex(t_argv *argv)
 	if (pthread_mutex_init(&argv->who_dead, NULL))
 		return (ERROR_MUTEX);
 	pthread_mutex_lock(&argv->who_dead);
-	if (!(argv->forks = (pthread_mutex_t*)malloc(sizeof(*(argv->forks)) * argv->num_philo)))
+	if (!(argv->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+	* argv->num_philo)))
 		return (ERROR_MALLOC);
 	i = 0;
 	while (i < argv->num_philo)
@@ -66,7 +67,7 @@ int		init_param(t_argv *argv, int ac, char **av)
 
 	argv->num_philo = ft_atoi(av[1]);
 	argv->time_to_die = ft_atoi(av[2]);
-	argv->time_to_die = ft_atoi(av[3]);
+	argv->time_to_eat = ft_atoi(av[3]);
 	argv->time_to_sleep = ft_atoi(av[4]);
 	argv->must_eat_end = (ac == 6) ? ft_atoi(av[5]) : 0;
 	if (argv->num_philo < 2 || argv->num_philo > 200 || argv->time_to_die < 60

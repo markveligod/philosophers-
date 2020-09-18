@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/18 15:41:50 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 17:02:20 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 19:53:58 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_time(unsigned long start_time)
 	write(STDOUT_FILENO, YELLOW, ft_strlen(YELLOW));
 	write(STDOUT_FILENO, "[", 1);
 	write(STDOUT_FILENO, curr_time, ft_strlen(curr_time));
-	write(STDOUT_FILENO, "] ", 2);
+	write(STDOUT_FILENO, "ms] ", 4);
 	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
 	free(curr_time);
 }
@@ -58,19 +58,19 @@ void	print_status(t_state status)
 
 void	ft_print_mess(t_philo *philo, t_state status)
 {
-	static int	check;
 	char		*index;
 
-	check = 0;
 	pthread_mutex_lock(&philo->argv->who_write);
-	if (!check)
-	{
-		check = (status == DIED || status == END) ? 1 : 0;
-		print_time(philo->argv->start_time);
-		index = ft_itoa(philo->index + 1);
+	if (g_dead == 1)
+		usleep(1000);
+	g_dead = (status == DIED || status == END) ? 1 : 0;
+	print_time(philo->argv->start_time);
+	index = ft_itoa(philo->index + 1);
+	if (status != END)
 		write(STDOUT_FILENO, index, ft_strlen(index));
-		free(index);
-		print_status(status);
-	}
+	else
+		write(STDOUT_FILENO, " ", 1);
+	free(index);
+	print_status(status);
 	pthread_mutex_unlock(&philo->argv->who_write);
 }

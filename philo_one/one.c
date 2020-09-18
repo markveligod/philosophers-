@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:46:30 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 17:43:47 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 18:46:58 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		main(int ac, char **av)
 	int		status;
 
 	status = 0;
+	g_dead = 0;
 	if (ac < 5 || ac > 6)
 		return (print_error("Wrong number of arguments !\n", ac));
 	if ((status = init_param(&argv, ac, av)) != 0)

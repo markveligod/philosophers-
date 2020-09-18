@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:26:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 17:44:59 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 19:57:12 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[1;33m"
 # define RESET "\033[0m"
-# define ERROR_VALUE -1
-# define ERROR_THREAD -2
-# define ERROR_MALLOC -3
-# define ERROR_MUTEX -4
+# define ERROR_VALUE 20
+# define ERROR_THREAD 21
+# define ERROR_MALLOC 22
+# define ERROR_MUTEX 23
 
 # include <pthread.h>
 # include <sys/time.h>
@@ -66,8 +66,15 @@ typedef struct		s_argv
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	who_write;
 	pthread_mutex_t	who_dead;
-	
 }					t_argv;
+
+/*
+**============================================================================
+** Костыль на ft_print_mess
+**============================================================================
+*/
+
+int					g_dead;
 
 /*
 **============================================================================
