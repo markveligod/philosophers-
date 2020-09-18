@@ -1,8 +1,9 @@
 NAME = philo_one
 FLAGS = -Wall -Wextra -Werror -lpthread
 HDRS = ./one.h
-SRC = ./one.c ./get_param.c ./threads.c ./utils.c ./utils2.c
-OBJ=$(SRC:.c=.o)
+SRC = ./one.c ./get_param.c ./threads.c ./clear_leaks.c
+UTILS = ./utils/ft_atoi.c ./utils/ft_itoa.c ./utils/ft_strdup.c ./utils/ft_strlen.c ./utils/ft_done.c ./utils/ft_print_mess.c ./utils/ft_time_is.c
+OBJ=$(SRC:.c=.o) $(UTILS:.c=.o)
 
 #colors
 RED=\033[1;31m

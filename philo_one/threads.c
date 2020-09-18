@@ -5,89 +5,100 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/16 11:56:52 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 16:04:24 by ckakuna          ###   ########.fr       */
+/*   Created: 2020/09/18 15:20:20 by ckakuna           #+#    #+#             */
+/*   Updated: 2020/09/18 17:58:49 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "one.h"
 
-void	get_sleeping(int n)
+void	*check_eat_end(void *param)
 {
-	unsigned long start;
-	unsigned long passed;
-
-	start = get_time_is();
-	while (1)
+	t_argv	*argv;
+	int		i;
+	int		count;
+	
+	argv = (t_argv*)param;
+	count = 0;
+	while (count < argv->must_eat_end)
 	{
-		passed = get_time_is() - start;
-		if (passed >= (unsigned long)n)
-			break ;
-		usleep(200);
+		i = 0;
+		while (i < argv->num_philo)
+			pthread_mutex_lock(&argv->philos[i++].eat_m);
+		count++;
 	}
-}
-
-int		try_fork(t_philo *philo)
-{
-	t_ptr *ptr;
-
-	ptr = get_ptr();
-	pthread_mutex_lock(&ptr->mutex->forks[philo->index]);
-	print_do(philo, TAKE_FORK);
-	pthread_mutex_lock(&ptr->mutex->forks[(philo->index + 1)
-	% ptr->times->num_ph]);
-	pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
-	print_do(philo, TAKE_FORK);
-	philo->last_eat = get_time_is();
-	print_do(philo, EATING);
-	get_sleeping(ptr->times->time_to_eat);
-	pthread_mutex_unlock(&ptr->mutex->die_eat[philo->index]);
-	pthread_mutex_unlock(&ptr->mutex->forks[philo->index]);
-	pthread_mutex_unlock(&ptr->mutex->forks[(philo->index + 1)
-	% ptr->times->num_ph]);
-	return (1);
-}
-
-void	*threads_live(void *args)
-{
-	t_ptr	*ptr;
-	t_philo	*philo;
-
-	ptr = get_ptr();
-	philo = (t_philo*)args;
-	while (1)
-	{
-		print_do(philo, THINKING);
-		try_fork(philo);
-		if (ptr->times->num_eat && ++philo->num_eat == ptr->times->num_eat)
-			break ;
-		print_do(philo, SLEEPING);
-		get_sleeping(ptr->times->time_to_sleep);
-	}
-	ptr->num_philo--;
+	ft_print_mess(&argv->philos[0], END);
+	pthread_mutex_unlock(&argv->who_dead);
 	return (NULL);
 }
 
-void	*threads_check(void *args)
+void	*check_live(void *param)
 {
-	t_ptr	*ptr;
-	t_philo	*philo;
+	t_philo		*philo;
 
-	ptr = get_ptr();
-	philo = (t_philo*)args;
-	while (42)
+	philo = (t_philo*)param;
+	while (1)
 	{
-		pthread_mutex_lock(&ptr->mutex->die_eat[philo->index]);
-		if (get_time_is() - philo->last_eat > ptr->times->time_to_die
-		&& ptr->alive)
+		pthread_mutex_lock(&philo->mutex);
+		if (!philo->is_eat && ft_time_is() > philo->limit)
 		{
-			ptr->alive = 0;
-			print_do(philo, DIED);
-			free_ptr(ptr);
-			break ;
+			ft_print_mess(philo, DIED);
+			pthread_mutex_unlock(&philo->mutex);
+			pthread_mutex_unlock(&philo->argv->who_dead);
+			return (NULL);
 		}
-		pthread_mutex_unlock(&ptr->mutex->die_eat[philo->index]);
-		get_sleeping(5);
+		pthread_mutex_unlock(&philo->mutex);
+		usleep(1000);
 	}
 	return (NULL);
+}
+
+void	*threads_live(void *param)
+{
+	t_philo		*philo;
+	pthread_t	tid;
+	
+	philo = (t_philo*)param;
+	philo->last_eat = ft_time_is();
+	philo->limit = philo->last_eat + philo->argv->time_to_die;
+	if (pthread_create(&tid, NULL, &check_live, philo))
+		return (NULL);
+	if (pthread_detach(tid))
+		return (NULL);
+	while (1)
+	{
+		ft_take_forks(philo);
+		ft_eat(philo);
+		ft_sleep(philo);
+		ft_print_mess(philo, THINKING);
+	}
+	return (NULL);
+}
+
+int		start_threads(t_argv *argv)
+{
+	int			i;
+	pthread_t	tid;
+	void		*philo;
+
+	argv->start_time = ft_time_is();
+	if (argv->must_eat_end > 0)
+	{
+		if (pthread_create(&tid, NULL, &check_eat_end, argv))
+			return (ERROR_THREAD);
+		if (pthread_detach(tid))
+			return (ERROR_THREAD);
+	}
+	i = 0;
+	while (i < argv->num_philo)
+	{
+		philo = (void*)(&argv->philos[i]);
+		if (pthread_create(&tid, NULL, &threads_live, philo))
+			return (ERROR_THREAD);
+		if (pthread_detach(tid))
+			return (ERROR_THREAD);
+		usleep(100);
+		i++;
+	}
+	return (0);
 }

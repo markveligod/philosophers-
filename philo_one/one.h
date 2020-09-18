@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:26:18 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 16:02:15 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 17:44:59 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,77 +18,88 @@
 # define RESET "\033[0m"
 # define ERROR_VALUE -1
 # define ERROR_THREAD -2
+# define ERROR_MALLOC -3
+# define ERROR_MUTEX -4
 
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdlib.h>
 # include <unistd.h>
 
+/*
+**============================================================================
+** Две структуры: с основными аргументами и персональной для философа.
+** + нумерация статуса философа.
+**============================================================================
+*/
+
+struct s_argv;
+
 typedef enum		e_state
 {
-	THINKING, EATING, SLEEPING, DIED, TAKE_FORK
+	THINKING, EATING, SLEEPING, DIED, TAKE_FORK, END
 }					t_state;
-
-typedef struct		s_argv
-{
-	unsigned long	time_to_eat;
-	unsigned long	time_to_die;
-	unsigned long	time_to_sleep;
-	int				num_ph;
-	int				num_eat;
-}					t_argv;
-
-typedef struct		s_mutex
-{
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*die_eat;
-}					t_mutex;
 
 typedef struct		s_philo
 {
 	int				index;
-	unsigned long	start;
-	int				num_eat;
+	int				is_eat;
+	unsigned long	limit;
 	unsigned long	last_eat;
-	pthread_t		live;
-	pthread_t		check;
+	int				left_fork;
+	int				right_fork;
+	int				eat_count;
+	struct s_argv	*argv;
+	pthread_mutex_t	mutex;
+	pthread_mutex_t	eat_m;
 }					t_philo;
 
-typedef struct		s_ptr
+typedef struct		s_argv
 {
-	t_argv			*times;
-	t_philo			*philos;
-	t_mutex			*mutex;
 	int				num_philo;
-	int				alive;
-}					t_ptr;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
+	int				must_eat_end;
+	unsigned long	start_time;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	who_write;
+	pthread_mutex_t	who_dead;
+	
+}					t_argv;
 
 /*
-** Threads
+**============================================================================
+** Функции для leaks.
+**============================================================================
 */
 
-void				*threads_check(void *philo);
-void				*threads_live(void *philo);
+void				clear_leaks(t_argv *argv);
 
 /*
-** Get param
+**============================================================================
+** Функции для потоков.
+**============================================================================
 */
 
-t_ptr				*get_ptr(void);
-t_ptr				*init_param(char **av);
-void				free_ptr(t_ptr *ptr);
+int					start_threads(t_argv *argv);
+unsigned long		ft_time_is(void);
+void				ft_print_mess(t_philo *philo, t_state status);
+void				ft_take_forks(t_philo *philo);
+void				ft_sleep(t_philo *philo);
+void				ft_eat(t_philo *philo);
 
 /*
-** Utils
+**============================================================================
+** Функции для парсинга.
+**============================================================================
 */
 
-unsigned long		get_time_is(void);
-char				*ft_itoa(unsigned long n);
-char				*ft_strjoin(char const *s1, char const *s2);
+int					init_param(t_argv *argv, int ac, char **av);
 size_t				ft_strlen(const char *str);
 int					ft_atoi(const char *str);
-char				*ft_strdup(const char *s1);
-int					ft_len(unsigned long nb);
-void				print_do(t_philo *philo, t_state status);
+char				*ft_strdup(const char *str);
+char				*ft_itoa(unsigned long n);
 
 #endif

@@ -6,49 +6,11 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:46:30 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/16 16:02:45 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/18 17:43:47 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "one.h"
-
-void	free_ptr(t_ptr *ptr)
-{
-	int i;
-
-	i = -1;
-	while (++i < ptr->times->num_ph)
-		pthread_mutex_destroy(&ptr->mutex->forks[i]);
-	free(ptr->philos);
-	free(ptr->times);
-	free(ptr->mutex->forks);
-	free(ptr->mutex->die_eat);
-	free(ptr->mutex);
-}
-
-int		start_threads(void)
-{
-	t_ptr	*ptr;
-	int		i;
-
-	ptr = get_ptr();
-	i = 0;
-	while (i < ptr->times->num_ph)
-	{
-		if (pthread_create(&ptr->philos[i].live, NULL,
-		threads_live, &ptr->philos[i]))
-			return (0);
-		if (pthread_detach(ptr->philos[i].live))
-			return (0);
-		if (pthread_create(&ptr->philos[i].check, NULL,
-		threads_check, &ptr->philos[i]))
-			return (0);
-		if (pthread_detach(ptr->philos[i].check))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int		print_error(char *str, int err)
 {
@@ -66,35 +28,20 @@ int		print_error(char *str, int err)
 	return (err);
 }
 
-int		check_alive(t_ptr *ptr)
-{
-	while (1)
-	{
-		if (!ptr->alive)
-			return (1);
-		if (!ptr->num_philo)
-			break ;
-		usleep(200);
-	}
-	return (0);
-}
-
 int		main(int ac, char **av)
 {
-	t_ptr *ptr;
+	t_argv	argv;
+	int		status;
 
+	status = 0;
 	if (ac < 5 || ac > 6)
 		return (print_error("Wrong number of arguments !\n", ac));
-	if (!(ptr = init_param(av)))
-		return (print_error("Invalid argument value !\n", ERROR_VALUE));
-	if (!start_threads())
-		return (print_error("Invalid thread\n", ERROR_THREAD));
-	if (check_alive(ptr))
-		return (0);
-	free_ptr(ptr);
-	write(STDOUT_FILENO, RED, ft_strlen(RED));
-	write(STDOUT_FILENO, "They all have eaten enough\n",
-	ft_strlen("They all have eaten enough\n"));
-	write(STDOUT_FILENO, RESET, ft_strlen(RESET));
-	return (1);
+	if ((status = init_param(&argv, ac, av)) != 0)
+		return (print_error("Invalid init param\n", status));
+	if ((status = start_threads(&argv)) != 0)
+		return (print_error("Invalid start threads\n", status));
+	pthread_mutex_lock(&argv.who_dead);
+	pthread_mutex_unlock(&argv.who_dead);
+	clear_leaks(&argv);
+	return (status);
 }
