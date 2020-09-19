@@ -6,18 +6,24 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/18 15:20:20 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 18:26:41 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/19 09:30:37 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "one.h"
+
+/*
+**============================================================================
+** Набор функций для создания потока.
+**============================================================================
+*/
 
 void	*check_eat_end(void *param)
 {
 	t_argv	*argv;
 	int		i;
 	int		count;
-	
+
 	argv = (t_argv*)param;
 	count = 0;
 	while (count < argv->must_eat_end)
@@ -57,7 +63,7 @@ void	*threads_live(void *param)
 {
 	t_philo		*philo;
 	pthread_t	tid;
-	
+
 	philo = (t_philo*)param;
 	philo->last_eat = ft_time_is();
 	philo->limit = philo->last_eat + philo->argv->time_to_die;

@@ -6,16 +6,17 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/18 14:57:29 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 14:57:46 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/19 09:31:28 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../one.h"
 
-size_t				ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	size_t i = 0;
+	size_t i;
 
+	i = 0;
 	while (str[i])
 		i++;
 	return (i);

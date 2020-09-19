@@ -6,7 +6,7 @@
 /*   By: ckakuna <ckakuna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 16:53:08 by ckakuna           #+#    #+#             */
-/*   Updated: 2020/09/18 18:33:51 by ckakuna          ###   ########.fr       */
+/*   Updated: 2020/09/19 09:29:58 by ckakuna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		get_philos(t_argv *argv)
 int		init_mutex(t_argv *argv)
 {
 	int i;
-	
+
 	if (pthread_mutex_init(&argv->who_write, NULL))
 		return (ERROR_MUTEX);
 	if (pthread_mutex_init(&argv->who_dead, NULL))
@@ -77,10 +77,10 @@ int		init_param(t_argv *argv, int ac, char **av)
 	argv->forks = NULL;
 	argv->philos = NULL;
 	if (!(argv->philos = (t_philo *)malloc(sizeof(t_philo) * argv->num_philo)))
-		return(ERROR_MALLOC);
+		return (ERROR_MALLOC);
 	if ((status = get_philos(argv)) != 0)
 		return (status);
-	if ((status = init_mutex(argv)) != 0 )
+	if ((status = init_mutex(argv)) != 0)
 		return (status);
 	return (0);
 }
