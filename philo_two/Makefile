@@ -27,6 +27,21 @@ $(NAME): $(OBJ) $(HDRS)
 	@echo "    / )|||_"
 	@echo "   (_______)$(RESET)"
 	@echo ""
+	@echo "$(YELLOW)Your assistant rushes to the rescue.$(RESET)"
+	@echo "$(RED)[Important argument]:$(RESET)"
+	@echo " 1. $(YELLOW)[number_of_philosophers]$(RESET) - Количество философов/вилок."
+	@echo " 2. $(YELLOW)[time_to_die]$(RESET) - Время в ms до смерти."
+	@echo " 3. $(YELLOW)[time_to_eat]$(RESET) - Время в ms на прием пищи."
+	@echo " 4. $(YELLOW)[time_to_sleep]$(RESET) - Время в ms на сон."
+	@echo ""
+	@echo "$(RED)[Optional argument]:$(RESET)"
+	@echo " 5. $(YELLOW)[number_of_times_each_philosopher_must_eat]$(RESET) - Время в ms на ограниченное количество приема пищи."
+	@echo ""
+	@echo "$(RED)[For example]:$(RESET)"
+	@echo "    $(YELLOW)[./$(NAME) 5 800 200 200]$(RESET) or $(YELLOW)[./$(NAME) 5 800 200 200 7]$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)NOTE:$(RESET) По чек-листу есть ограничения на количество философов: 2-200 и время не меньше 60ms."
+	@echo ""
 
 all: $(NAME)
 
@@ -39,5 +54,30 @@ fclean: clean
 	@echo "[$(RED)Deleting$(RESET)]$(RED) philo_two deleted.$(RESET)"
 
 re: fclean all
+
+help:
+	@echo ""
+	@echo "$(CYAN)      /|/|"
+	@echo "     ( @ @)"
+	@echo "      ) ^ $(RESET)   philosophers(project 2020) $(CYAN)"
+	@echo "     / |||       $(RESET) by ckakuna$(CYAN)"
+	@echo "    / )|||_"
+	@echo "   (_______)$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)Your assistant rushes to the rescue.$(RESET)"
+	@echo "$(RED)[Important argument]:$(RESET)"
+	@echo " 1. $(YELLOW)[number_of_philosophers]$(RESET) - Количество философов/вилок."
+	@echo " 2. $(YELLOW)[time_to_die]$(RESET) - Время в ms до смерти."
+	@echo " 3. $(YELLOW)[time_to_eat]$(RESET) - Время в ms на прием пищи."
+	@echo " 4. $(YELLOW)[time_to_sleep]$(RESET) - Время в ms на сон."
+	@echo ""
+	@echo "$(RED)[Optional argument]:$(RESET)"
+	@echo " 5. $(YELLOW)[number_of_times_each_philosopher_must_eat]$(RESET) - Время в ms на ограниченное количество приема пищи."
+	@echo ""
+	@echo "$(RED)[For example]:$(RESET)"
+	@echo "    $(YELLOW)[./$(NAME) 5 800 200 200]$(RESET) or $(YELLOW)[./$(NAME) 5 800 200 200 7]$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)NOTE:$(RESET) По чек-листу есть ограничения на количество философов: 2-200 и время не меньше 60ms."
+	@echo ""
 
 .PHONY: all clean fclean re

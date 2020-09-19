@@ -1,8 +1,8 @@
-NAME = philo_one
+NAME = philo_three
 FLAGS = -Wall -Wextra -Werror -lpthread
-HDRS = ./one.h
-SRC = ./one.c ./get_param.c ./threads.c ./clear_leaks.c
-UTILS = ./utils/ft_atoi.c ./utils/ft_itoa.c ./utils/ft_strdup.c ./utils/ft_strlen.c ./utils/ft_done.c ./utils/ft_print_mess.c ./utils/ft_time_is.c
+HDRS = ./three.h
+SRC = ./three.c ./get_param.c ./threads.c ./clear_leaks.c
+UTILS = ./utils/ft_atoi.c ./utils/ft_itoa.c ./utils/ft_strdup.c ./utils/ft_strlen.c ./utils/ft_done.c ./utils/ft_print_mess.c ./utils/ft_time_is.c ./utils/ft_strjoin.c
 OBJ=$(SRC:.c=.o) $(UTILS:.c=.o)
 
 #colors
@@ -18,7 +18,7 @@ RESET=\033[0m
 
 $(NAME): $(OBJ) $(HDRS)
 	@gcc -o $(NAME) $(OBJ) $(FLAGS)
-	@echo "[$(GREEN)Success$(RESET)]$(GREEN) Successfully compiled philo_one project.$(RESET)"
+	@echo "[$(GREEN)Success$(RESET)]$(GREEN) Successfully compiled philo_three project.$(RESET)"
 	@echo ""
 	@echo "$(CYAN)      /|/|"
 	@echo "     ( @ @)"
@@ -51,7 +51,7 @@ clean:
 
 fclean: clean
 	@rm $(NAME)
-	@echo "[$(RED)Deleting$(RESET)]$(RED) philo_one deleted.$(RESET)"
+	@echo "[$(RED)Deleting$(RESET)]$(RED) philo_three deleted.$(RESET)"
 
 re: fclean all
 
